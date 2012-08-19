@@ -3,7 +3,9 @@ B1nj Polaroid Gallery
 
 **More information and examples : [http://b1nj.fr]**
 
-**Blog : [http://b1nj.fr/blog/]**
+**[Demo 1]**
+
+**[Demo 2 with full screen]**
 
 B1nj Polaroid Gallery is a very simple jQuery plugin.
 
@@ -46,11 +48,12 @@ Include Css, html with the photos and script jQuery, jQuery UI, plugin on a page
 It's easy to add a nice zoom, with for example the plugin fancyBox.
 
 
-##Crédit
+##Credit
 
-Crédit Photos : Tifish - [http://www.facebook.com/tifish.photographie]
+Credit Photos : Tifish - [http://www.facebook.com/tifish.photographie]
 
-  [http://b1nj.fr]: http://b1nj.fr
-  [http://b1nj.fr/blog/]: http://b1nj.fr/blog/
+  [http://b1nj.fr]: http://www.b1nj.fr/blog/index.php?post/2012/08/19/B1nj-Polaroid-Gallery-%3A-Une-galerie-jQuery/css3/html5
+  [Demo 1]: http://www.b1nj.fr/tests/b1njPolaroidGallery/
+  [Demo 2 with full screen] http://www.b1nj.fr/tests/b1njPolaroidGallery/fullscreen.html
   [http://www.facebook.com/tifish.photographie]: http://www.facebook.com/tifish.photographie
 

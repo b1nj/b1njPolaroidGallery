@@ -1,5 +1,5 @@
 /*! jQuery B1njPolaroidGallery - v1.0
-* hhttps://github.com/b1nj/b1njPolaroidGallery
+* https://github.com/b1nj/b1njPolaroidGallery
 * Includes: jquery.ui.js
 * Copyright (c) 2012 b1nj Licensed MIT */
 (function ($)
