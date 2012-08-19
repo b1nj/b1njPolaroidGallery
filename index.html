@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>B1nj Polaroid Gallery</title>
+    <link rel="stylesheet" media="screen" href="css/general.css">
+    <link rel="stylesheet" media="screen" href="css/b1njPolaroidGallery.css">
+</head>
+<body>
+    <div id="page">
+        <h1>B1nj Polaroid Gallery (plugin jQuery)</h1>
+        <div id="gallery">
+            <ul>
+                <li><a href="img/img1-b.jpg"><img src="img/img1.jpg" alt=""></a></li>
+                <li><a href="img/img2-b.jpg"><img src="img/img2.jpg" alt="Coconut"></a></li>
+                <li><img src="img/img3.jpg" alt=""></li>
+                <li><a href="img/img4-b.jpg"><img src="img/img4.jpg" alt="Breakfast"></a></li>
+                <li><a href="img/img5-b.jpg"><img src="img/img5.jpg" alt=""></a></li>
+                <li><a href="img/img6-b.jpg"><img src="img/img6.jpg" alt=""></a></li>
+                <li><a href="img/img7-b.jpg"><img src="img/img7.jpg" alt="Colibri"></a></li>
+                <li><a href="img/img8-b.jpg"><img src="img/img8.jpg" alt="Nice Colibri"></a></li>
+            </ul>
+        </div>
+        <p class="credit">Credit photos : Tifish - <a href="http://www.facebook.com/tifish.photographie">http://www.facebook.com/tifish.photographie</a></p>
+    </div>
+    <script src="js/jquery-1.8.0.min.js"></script>
+    <script src="js/jquery-ui-1.8.23.custom.min.js"></script>
+    <script src="js/jquery.b1njPolaroidGallerry.js"></script>
+    <script>
+        $(window).load(function() {
+            $('#gallery').b1njPolaroidGallery();
+        });
+    </script>
+</body>
+</html>

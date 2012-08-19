@@ -1,0 +1,52 @@
+.b1njPolaroidGallery {
+    position: relative;
+}
+.b1njPolaroidGallery ul {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+    .b1njPolaroidGallery li {
+        cursor: move;
+        display: block;
+        background: white;
+        border: 1px solid #D7D7D7;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        list-style-type: none;
+    }
+    li.b1njPolaroidGallery-active {
+        -webkit-transform : rotate(0deg) !important;
+        -ms-transform : rotate(0deg) !important;
+        -moz-transform : rotate(0deg) !important;  
+        -o-transform : rotate(0deg) !important;
+        transform : rotate(0deg) !important;
+        -webkit-box-shadow : #888 5px 5px 5px;
+        box-shadow : #888 5px 5px 5px;
+        z-index: 2;
+    }
+    li.ui-draggable-dragging {
+    }
+        .b1njPolaroidGallery a { 
+            cursor: inherit;
+            display: block;
+            line-height: 0;
+        }                              
+        .b1njPolaroidGallery img { 
+            margin: 10px;
+            border: 1px solid #D7D7D7;
+            font-size: 1pt;
+        }
+        li.b1njPolaroidGallery-linkOk img{
+            cursor: pointer;
+        }
+        .b1njPolaroidGallery p { 
+            text-align: center; 
+            font-size: 1.1em; 
+            font-weight: bold;
+            color: #2E2E2E;
+            margin: 0 10px 10px 10px;
+        }
