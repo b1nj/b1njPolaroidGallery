@@ -57,14 +57,9 @@
 
                 var cssObj = { 
                     'left' : '+=' + left,
-                    'top' : '+=' + top,
-                    '-webkit-transform' : 'rotate('+ rotDegrees +'deg)',
-                    '-ms-transform' : 'rotate('+ rotDegrees +'deg)',
-                    '-moz-transform' : 'rotate('+ rotDegrees +'deg)',
-                    '-o-transform' : 'rotate('+ rotDegrees +'deg)',
-                    'transform' : 'rotate('+ rotDegrees +'deg)' 
+                    'top' : '+=' + top
                 };
-                $(this).css(cssObj).data('rotDegrees', rotDegrees);
+                $(this).css(cssObj).b1njPolaroidGalleryRotate(rotDegrees).data('rotDegrees', rotDegrees);
 
                 $(this).bind('mousedown', function(e)
                 {
@@ -80,18 +75,34 @@
                     },
                     stop: function(event, ui) {
                         rotDegrees = $(this).data('rotDegrees');
-                        var cssObj = { 
-                            '-webkit-transform' : 'rotate('+ rotDegrees +'deg)', 
-                            '-ms-transform' : 'rotate('+ rotDegrees +'deg)',  
-                            '-moz-transform' : 'rotate('+ rotDegrees +'deg)',  
-                            '-o-transform' : 'rotate('+ rotDegrees +'deg)', 
-                            'tranform' : 'rotate('+ rotDegrees +'deg)'
-                        };
-                        $(this).css(cssObj);
+                        $(this).b1njPolaroidGalleryRotate(rotDegrees);
                     }
                 });
             });
         });
+        return this;
+    };
+    jQuery.fn.b1njPolaroidGalleryRotate = function (rotation)
+    {
+        if ($.browser.msie  && parseInt($.browser.version, 10) === 8) {
+            if (rotation >= 0) {
+                var rotation = Math.PI * rotation / 180;
+            } else {
+                var rotation = Math.PI * (360+rotation) / 180;
+            }
+            var cssObj = {
+                'filter' : 'progid:DXImageTransform.Microsoft.Matrix(M11=' + Math.cos(rotation) + ",M12=" + (-Math.sin(rotation)) + ",M21=" + Math.sin(rotation) + ",M22=" + Math.cos(rotation) + ",SizingMethod='auto expand')"
+            }
+        } else {
+            var cssObj = { 
+                '-webkit-transform' : 'rotate('+ rotation +'deg)', 
+                '-ms-transform' : 'rotate('+ rotation +'deg)',  
+                '-moz-transform' : 'rotate('+ rotation +'deg)',  
+                '-o-transform' : 'rotate('+ rotation +'deg)', 
+                'tranform' : 'rotate('+ rotation +'deg)'
+            };
+        }            
+        $(this).css(cssObj);
         return this;
     }
 }) (jQuery);
@@ -109,6 +120,9 @@ function randomXToY(minVal,maxVal,floatVal)
 // //x = (1/V2).V(CD² + AD²) * V(1-cos(alpha)) * sin[(180° - alpha)/2 - arctg(AD/CD)] 
 function shiftAfeterRotate(height, width, rotate) 
 {
+    if ($.browser.msie  && parseInt($.browser.version, 10) === 8) {
+        return 0;   
+    }
     var x = (1/Math.sqrt(2)) * 
     Math.sqrt(Math.pow(width,2) + Math.pow(height,2)) * 
     Math.sqrt(1 - Math.cos(rotate * (Math.PI / 180))) * 
