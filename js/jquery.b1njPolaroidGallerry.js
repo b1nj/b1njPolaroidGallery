@@ -4,18 +4,32 @@
 * Copyright (c) 2012 b1nj Licensed MIT */
 (function ($)
 {
-    jQuery.fn.b1njPolaroidGallery = function ()
+    jQuery.fn.b1njPolaroidGallery = function (options)
     {
+        var settings = $.extend( {
+            'maxRotation' : 20,
+            'randomStacking' : true
+        }, options);
+        
         this.each (function (index, value)
         {
             $(this).addClass('b1njPolaroidGallery');
             var galleryW = $(this).width();
             var galleryH = $(this).height();
-            $('li', this).each (function (index, value) 
+            var nbPhotos = $('li', this).length;
+            var zIndex = new Array();
+            for(var i=0; i<nbPhotos; i++) {
+                zIndex[i] = i + 1;
+            }
+            if (settings.randomStacking) {
+                var zIndex = zIndex.sort(function() { return 0.5 - Math.random() });
+            }
+            
+            $('li', this).each (function (index, value)
             {
                 var alt = $('img', this).attr('alt');
                 if (alt != '') {
-                    $(this).append('<p>'+ alt +'</p>')                    
+                    $(this).append('<p>'+ alt +'</p>')
                 }
                 
                 $(this).width($('img', this).width() + (Number($('img', this).css('margin-left').slice(0,-2)) * 2));
@@ -33,7 +47,7 @@
                 var photoW = $(this).width();
                 var photoH = $(this).height();
                 
-                var tempRotDegrees = randomXToY(0, 20);
+                var tempRotDegrees = randomXToY(0, settings.maxRotation);
                 var tempVal = Math.round(Math.random());
                 if(tempVal == 1) {
                     var rotDegrees = 360 - tempRotDegrees; // rotate left
@@ -41,11 +55,11 @@
                     var rotDegrees = tempRotDegrees; // rotate right
                 }
 
-                var shiftT = shiftAfeterRotate(photoH, photoW, tempRotDegrees)
-                var shiftL = shiftAfeterRotate(photoW, photoH, tempRotDegrees)
+                var shiftT = shiftAfeterRotate(photoH, photoW, tempRotDegrees);
+                var shiftL = shiftAfeterRotate(photoW, photoH, tempRotDegrees);
                 
                 if (galleryH - shiftT - photoH > shiftT) {
-                    var top = randomXToY(shiftT, galleryH - shiftT - photoH); 
+                    var top = randomXToY(shiftT, galleryH - shiftT - photoH);
                 } else {
                     var top = shiftT;
                 }
@@ -55,10 +69,11 @@
                     var left = shiftL;
                 }
 
-                var cssObj = { 
+                var cssObj = {
                     'left' : '+=' + left,
                     'top' : '+=' + top
                 };
+                cssObj['z-index'] = zIndex[index];
                 $(this).css(cssObj).b1njPolaroidGalleryRotate(rotDegrees).data('rotDegrees', rotDegrees);
 
                 $(this).bind('mousedown', function(e)
@@ -88,7 +103,7 @@
             if (rotation >= 0) {
                 var rotation = Math.PI * rotation / 180;
             } else {
-                var rotation = Math.PI * (360+rotation) / 180;
+                var rotation = Math.PI * (360 + rotation) / 180;
             }
             var cssObj = {
                 'filter' : 'progid:DXImageTransform.Microsoft.Matrix(M11=' + Math.cos(rotation) + ",M12=" + (-Math.sin(rotation)) + ",M21=" + Math.sin(rotation) + ",M22=" + Math.cos(rotation) + ",SizingMethod='auto expand')"
@@ -109,7 +124,7 @@
 
 // Function to get random number upto m
 // http://roshanbh.com.np/2008/09/get-random-number-range-two-numbers-javascript.html
-function randomXToY(minVal,maxVal,floatVal) 
+function randomXToY(minVal,maxVal,floatVal)
 {
     var randVal = minVal+(Math.random()*(maxVal-minVal));
     return typeof floatVal=='undefined'?Math.round(randVal):randVal.toFixed(floatVal);
@@ -117,11 +132,11 @@ function randomXToY(minVal,maxVal,floatVal)
 
 // Fuction get the shift after rotate the photo
 // http://www.maths-forum.com/trigonometrie-rotation-d-un-rectangle-129467.php
-// //x = (1/V2).V(CD² + AD²) * V(1-cos(alpha)) * sin[(180° - alpha)/2 - arctg(AD/CD)] 
-function shiftAfeterRotate(height, width, rotate) 
+// //x = (1/V2).V(CD² + AD²) * V(1-cos(alpha)) * sin[(180° - alpha)/2 - arctg(AD/CD)]
+function shiftAfeterRotate(height, width, rotate)
 {
     if ($.browser.msie  && parseInt($.browser.version, 10) === 8) {
-        return 0;   
+        return 0;
     }
     var x = (1/Math.sqrt(2)) * 
     Math.sqrt(Math.pow(width,2) + Math.pow(height,2)) * 
