@@ -54,6 +54,6 @@ Credit Photos : Tifish - [http://www.facebook.com/tifish.photographie]
 
   [http://b1nj.fr]: http://www.b1nj.fr/blog/index.php?post/2012/08/19/B1nj-Polaroid-Gallery-%3A-Une-galerie-jQuery/css3/html5
   [Demo 1]: http://www.b1nj.fr/tests/b1njPolaroidGallery/
-  [Demo 2 with full screen] http://www.b1nj.fr/tests/b1njPolaroidGallery/fullscreen.html
+  [Demo 2 with full screen]: http://www.b1nj.fr/tests/b1njPolaroidGallery/fullscreen.html
   [http://www.facebook.com/tifish.photographie]: http://www.facebook.com/tifish.photographie
 
