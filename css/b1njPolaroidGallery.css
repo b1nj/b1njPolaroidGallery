@@ -26,7 +26,6 @@
         transform : rotate(0deg) !important;
         -webkit-box-shadow : #888 5px 5px 5px;
         box-shadow : #888 5px 5px 5px;
-        z-index: 1000 !important;
     }
     li.ui-draggable-dragging {
     }

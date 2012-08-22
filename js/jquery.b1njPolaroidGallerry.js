@@ -14,11 +14,12 @@
         this.each (function (index, value)
         {
             $(this).addClass('b1njPolaroidGallery');
+            var gallery = this;
             var galleryW = $(this).width();
             var galleryH = $(this).height();
             var nbPhotos = $('li', this).length;
             var zIndex = new Array();
-            for(var i=0; i<nbPhotos; i++) {
+            for(var i = 0; i < nbPhotos; i++) {
                 zIndex[i] = i + 1;
             }
             if (settings.randomStacking) {
@@ -72,11 +73,22 @@
                     'top' : '+=' + top
                 };
                 cssObj['z-index'] = zIndex[index];
-                $(this).css(cssObj).b1njPolaroidGalleryRotate(rotDegrees).data('rotDegrees', rotDegrees);
-
-                $(this).bind('mousedown', function(e)
+                
+                $(this).css(cssObj).
+                b1njPolaroidGalleryRotate(rotDegrees).
+                data('rotDegrees', rotDegrees).
+                bind('mousedown', function(e)
                 {
-                    $(this).parent('ul').find('li').not(this).removeClass('b1njPolaroidGallery-active b1njPolaroidGallery-linkOk');
+                    var thisOldZIndex = zIndex[index];
+                    for(var i = 0; i < zIndex.length; i++) {
+                        if (zIndex[i] > thisOldZIndex) {
+                            zIndex[i]--;
+                        } else if (i == index) {
+                            zIndex[i] = nbPhotos;
+                        }
+                        $('li:eq(' + i + ')', gallery).css('z-index', zIndex[i]);
+                    }
+                    $('li', gallery).not(this).removeClass('b1njPolaroidGallery-active b1njPolaroidGallery-linkOk');
                     $(this).addClass('b1njPolaroidGallery-active');
                 }).
                 draggable({
