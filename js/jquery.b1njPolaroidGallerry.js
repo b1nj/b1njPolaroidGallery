@@ -47,16 +47,14 @@
                 var photoW = $(this).width();
                 var photoH = $(this).height();
                 
-                var tempRotDegrees = randomXToY(0, settings.maxRotation);
+                var rotDegrees = randomXToY(0, settings.maxRotation);
                 var tempVal = Math.round(Math.random());
                 if(tempVal == 1) {
-                    var rotDegrees = 360 - tempRotDegrees; // rotate left
-                } else {
-                    var rotDegrees = tempRotDegrees; // rotate right
+                    var rotDegrees = 360 - rotDegrees; // rotate left
                 }
 
-                var shiftT = shiftAfeterRotate(photoH, photoW, tempRotDegrees);
-                var shiftL = shiftAfeterRotate(photoW, photoH, tempRotDegrees);
+                var shiftT = shiftAfeterRotate(photoH, photoW, rotDegrees);
+                var shiftL = shiftAfeterRotate(photoW, photoH, rotDegrees);
                 
                 if (galleryH - shiftT - photoH > shiftT) {
                     var top = randomXToY(shiftT, galleryH - shiftT - photoH);
@@ -106,32 +104,24 @@
             return typeof floatVal=='undefined'?Math.round(randVal):randVal.toFixed(floatVal);
         }
         
-        // Fuction get the shift after rotate the photo
-        // http://www.maths-forum.com/trigonometrie-rotation-d-un-rectangle-129467.php
-        // //x = (1/V2).V(CD² + AD²) * V(1-cos(alpha)) * sin[(180° - alpha)/2 - arctg(AD/CD)]
-        function shiftAfeterRotate(height, width, rotate)
-        {
-            if ($.browser.msie  && parseInt($.browser.version, 10) === 8) {
-                return 0;
-            }
-            var x = (1/Math.sqrt(2)) * 
-            Math.sqrt(Math.pow(width,2) + Math.pow(height,2)) * 
-            Math.sqrt(1 - Math.cos(rotate * (Math.PI / 180))) * 
-            Math.sin(((180 - rotate)/2 - (Math.atan2(height, width)  * (180 / Math.PI))) * (Math.PI / 180));
-            return x;
-        }
         return this;
     };
     $.fn.b1njPolaroidGalleryRotate = function (rotation)
     {
         if ($.browser.msie  && parseInt($.browser.version, 10) === 8) {
+            var photoW = this.width();
+            var photoH = this.height();
+            var shiftT = shiftAfeterRotate(photoH, photoW, rotation);
+            var shiftL = shiftAfeterRotate(photoW, photoH, rotation);
             if (rotation >= 0) {
-                var rotation = Math.PI * rotation / 180;
+                rotation = Math.PI * rotation / 180;
             } else {
-                var rotation = Math.PI * (360 + rotation) / 180;
+                rotation = Math.PI * (360 + rotation) / 180;
             }
             var cssObj = {
-                'filter' : 'progid:DXImageTransform.Microsoft.Matrix(M11=' + Math.cos(rotation) + ",M12=" + (-Math.sin(rotation)) + ",M21=" + Math.sin(rotation) + ",M22=" + Math.cos(rotation) + ",SizingMethod='auto expand')"
+                'filter' : 'progid:DXImageTransform.Microsoft.Matrix(M11=' + Math.cos(rotation) + ",M12=" + (-Math.sin(rotation)) + ",M21=" + Math.sin(rotation) + ",M22=" + Math.cos(rotation) + ",SizingMethod='auto expand')",
+                'margin-top' : -shiftT,
+                'margin-left' : -shiftL
             }
         } else {
             var cssObj = { 
@@ -142,7 +132,24 @@
                 'tranform' : 'rotate('+ rotation +'deg)'
             };
         }            
-        $(this).css(cssObj);
+        this.css(cssObj);
         return this;
+    }
+    
+    // Fuction get the shift after rotate the photo
+    // http://www.maths-forum.com/trigonometrie-rotation-d-un-rectangle-129467.php
+    // //x = (1/V2).V(CD² + AD²) * V(1-cos(alpha)) * sin[(180° - alpha)/2 - arctg(AD/CD)]
+    function shiftAfeterRotate(height, width, rotate)
+    {
+        if (rotate > 180) {
+            rotate = 360 - rotate;
+        } else if (rotate < 0) {
+            rotate = -rotate;
+        }
+        var x = (1/Math.sqrt(2)) * 
+        Math.sqrt(Math.pow(width,2) + Math.pow(height,2)) * 
+        Math.sqrt(1 - Math.cos(rotate * (Math.PI / 180))) * 
+        Math.sin(((180 - rotate)/2 - (Math.atan2(height, width)  * (180 / Math.PI))) * (Math.PI / 180));
+        return x;
     }
 }) (jQuery);
