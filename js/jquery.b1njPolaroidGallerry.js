@@ -74,19 +74,43 @@
                 };
                 cssObj['z-index'] = zIndex[index];
                 
+                var datas = {
+                    'shiftT' : shiftT,
+                    'shiftL' : shiftL,
+                    'rotDegrees' : rotDegrees,
+                    'photoH' : photoH,
+                    'photoW' : photoW
+                };
+                                
                 $(this).css(cssObj).
                 b1njPolaroidGalleryRotate(rotDegrees).
-                data('rotDegrees', rotDegrees).
+                data(datas).
                 bind('mousedown', function(e)
                 {
                     var thisOldZIndex = zIndex[index];
                     for(var i = 0; i < zIndex.length; i++) {
+                        var $this = $('li:eq(' + i + ')', gallery);
+                        if (zIndex[i] == nbPhotos && i != index) {
+                            var thisDatas = $this.data();
+                            var top = Number($this.css('top').slice(0,-2));
+                            var left = Number($this.css('left').slice(0,-2));
+                            if (top < thisDatas.shiftT) {
+                                $this.css('top', '+=' + (top + thisDatas.shiftT));
+                            } else if (thisDatas.photoH + top + thisDatas.shiftT > galleryH) {
+                                $this.css('top', '-=' + (thisDatas.photoH + top + thisDatas.shiftT - galleryH));
+                            }
+                            if (left < thisDatas.shiftL) {
+                                $this.css('left', '+=' + (left + thisDatas.shiftL));
+                            } else if (thisDatas.photoW + left + thisDatas.shiftL > galleryW) {
+                                $this.css('left', '-=' + (thisDatas.photoW + left + thisDatas.shiftL - galleryW));
+                            }
+                        }
                         if (zIndex[i] > thisOldZIndex) {
                             zIndex[i]--;
                         } else if (i == index) {
                             zIndex[i] = nbPhotos;
                         }
-                        $('li:eq(' + i + ')', gallery).css('z-index', zIndex[i]);
+                        $this.css('z-index', zIndex[i]);
                     }
                     $('li', gallery).not(this).removeClass('b1njPolaroidGallery-active b1njPolaroidGallery-linkOk');
                     $(this).addClass('b1njPolaroidGallery-active');
