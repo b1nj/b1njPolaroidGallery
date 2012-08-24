@@ -13,10 +13,9 @@
         
         this.each (function (index, value)
         {
-            $(this).addClass('b1njPolaroidGallery');
-            var gallery = this;
-            var galleryW = $(this).width();
-            var galleryH = $(this).height();
+            var $gallery = $(this);
+            var galleryW = $gallery.width();
+            var galleryH = $gallery.height();
             var nbPhotos = $('li', this).length;
             var zIndex = new Array();
             for(var i = 0; i < nbPhotos; i++) {
@@ -25,28 +24,32 @@
             if (settings.randomStacking) {
                 var zIndex = zIndex.sort(function() { return 0.5 - Math.random() });
             }
-            
+
+            $gallery.addClass('b1njPolaroidGallery');            
+
             $('li', this).each (function (index, value)
             {
+                var $photo = $(this);
+                
                 var alt = $('img', this).attr('alt');
                 if (alt != '') {
                     $(this).append('<p>'+ alt +'</p>')
                 }
                 
-                $(this).width($('img', this).width() + (Number($('img', this).css('margin-left').slice(0,-2)) * 2));
+                $photo.width($('img', this).width() + (Number($('img', this).css('margin-left').slice(0,-2)) * 2));
                 
                 $('a', this).click(function (e) 
                 {
-                    if (!$(this).parent('li').hasClass('b1njPolaroidGallery-linkOk')) {
-                        $(this).parent('li').addClass('b1njPolaroidGallery-linkOk');
+                    var $lien = $(this);
+                    if (!$lien.parent('li').hasClass('b1njPolaroidGallery-linkOk')) {
+                        $lien.parent('li').addClass('b1njPolaroidGallery-linkOk');
                         e.preventDefault();
                         e.stopPropagation();
-                        //return false;
                     }
                 });
 
-                var photoW = $(this).width();
-                var photoH = $(this).height();
+                var photoW = $photo.outerWidth();
+                var photoH = $photo.outerHeight();
                 
                 var rotDegrees = randomXToY(0, settings.maxRotation);
                 var tempVal = Math.round(Math.random());
@@ -82,7 +85,7 @@
                     'photoW' : photoW
                 };
                                 
-                $(this).css(cssObj).
+                $photo.css(cssObj).
                 b1njPolaroidGalleryRotate(rotDegrees).
                 data(datas).
                 bind('mousedown', function(e)
@@ -92,8 +95,8 @@
                         var $this = $('li:eq(' + i + ')', gallery);
                         if (zIndex[i] == nbPhotos && i != index) {
                             var thisDatas = $this.data();
-                            var top = Number($this.css('top').slice(0,-2));
-                            var left = Number($this.css('left').slice(0,-2));
+                            var top = $this.position().top;
+                            var left = $this.position().left;
                             if (top < thisDatas.shiftT) {
                                 $this.css('top', '+=' + (top + thisDatas.shiftT));
                             } else if (thisDatas.photoH + top + thisDatas.shiftT > galleryH) {
@@ -112,19 +115,19 @@
                         }
                         $this.css('z-index', zIndex[i]);
                     }
-                    $('li', gallery).not(this).removeClass('b1njPolaroidGallery-active b1njPolaroidGallery-linkOk');
-                    $(this).addClass('b1njPolaroidGallery-active');
+                    $gallery.find('li').not(this).removeClass('b1njPolaroidGallery-active b1njPolaroidGallery-linkOk');
+                    $photo.addClass('b1njPolaroidGallery-active');
                 }).
                 draggable({
                     containment : 'parent',
                     start: function(event, ui) {
                         if (('a', this).length != 0) {
-                            $(this).addClass('b1njPolaroidGallery-LinkOk');
+                            $photo.addClass('b1njPolaroidGallery-LinkOk');
                         }
                     },
                     stop: function(event, ui) {
                         rotDegrees = $(this).data('rotDegrees');
-                        $(this).b1njPolaroidGalleryRotate(rotDegrees);
+                        $photo.b1njPolaroidGalleryRotate(rotDegrees);
                     }
                 });
             });
@@ -145,8 +148,8 @@
     $.fn.b1njPolaroidGalleryRotate = function (rotation)
     {
         if ($.browser.msie  && parseInt($.browser.version, 10) === 8) {
-            var photoW = this.width();
-            var photoH = this.height();
+            var photoW = this.outerWidth();
+            var photoH = this.outerHeight();
             var shiftT = shiftAfeterRotate(photoH, photoW, rotation);
             var shiftL = shiftAfeterRotate(photoW, photoH, rotation);
             if (rotation >= 0) {

@@ -1,5 +1,6 @@
 .b1njPolaroidGallery {
     position: relative;
+    overflow: hidden;
 }
 .b1njPolaroidGallery ul {
     margin: 0;
