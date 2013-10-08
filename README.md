@@ -22,7 +22,7 @@ Include Css, html with the photos and script jQuery, jQuery UI, plugin on a page
 **HTML**
 
 ```html
-<div id="gallery">
+<div id="gallery" class="b1njPolaroidGallery">
     <ul>
         <li><a href="img/img1-b.jpg"><img src="img/img1.jpg" alt="test1"></a></li>
         <li><a href="img/img2-b.jpg"><img src="img/img2.jpg" alt=""></a></li>
@@ -39,7 +39,7 @@ Include Css, html with the photos and script jQuery, jQuery UI, plugin on a page
 <script src="jquery-ui.js"></script>
 <script src="jquery.b1njPolaroidGallerry.js"></script>
 <script>
-    $(window).load(function() {
+    $(function() {
         $('#gallery').b1njPolaroidGallery();
     });
 </script>

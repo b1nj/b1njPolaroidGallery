@@ -9,7 +9,7 @@
 <body>
     <div id="page">
         <h1>B1nj Polaroid Gallery (plugin jQuery)</h1>
-        <div id="gallery">
+        <div id="gallery" class="b1njPolaroidGallery">
             <ul>
                 <li><a href="img/img1-b.jpg"><img src="img/img1.jpg" alt=""></a></li>
                 <li><a href="img/img2-b.jpg"><img src="img/img2.jpg" alt="Coconut"></a></li>
@@ -27,7 +27,7 @@
     <script src="js/jquery-ui-1.8.23.custom.min.js"></script>
     <script src="js/jquery.b1njPolaroidGallerry.js"></script>
     <script>
-        $(window).load(function() {
+        $(function() {
             $('#gallery').b1njPolaroidGallery();
         });
     </script>
